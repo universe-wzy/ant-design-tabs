@@ -1,0 +1,32 @@
+@import '~antd/lib/style/themes/default.less';
+
+.content {
+  padding: 8px 13px 0 16px;
+  background-image: url('../../../public/tabs/bg.png');
+  background-repeat: no-repeat;
+  background-size: auto 58px;
+  background-position: center top;
+}
+:global {
+  .ant-layout-sider {
+    position: relative;
+    min-width: 0;
+    background: #ffff;
+    transition: all 0.2s;
+  }
+}
+.layoutTabs{
+  :global{
+    .ant-tabs-nav::before{
+      border-bottom: none !important;
+    }
+  }
+}
+.tabTitle{
+  :global(.ant-tabs-tab-btn){
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
