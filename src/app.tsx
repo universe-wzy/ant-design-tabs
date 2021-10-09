@@ -1,15 +1,15 @@
-import type { Settings as LayoutSettings } from '@ant-design/pro-layout';
-import LoadingComponent, { PageLoading } from '@ant-design/pro-layout';
-import type { RequestConfig } from 'umi';
-import { dynamic, history } from 'umi';
+import type {Settings as LayoutSettings} from '@ant-design/pro-layout';
+import LoadingComponent, {PageLoading} from '@ant-design/pro-layout';
+import type {RequestConfig} from 'umi';
+import {dynamic, history} from 'umi';
 import {notification} from 'antd';
-import type { ResponseError, RequestOptionsInit } from 'umi-request';
-import { isEmpty } from 'lodash';
+import type {ResponseError, RequestOptionsInit} from 'umi-request';
+import {isEmpty} from 'lodash';
 import type {Route} from '@/layouts/typings';
 import IframeWrapper from '@/components/IframeWrapper';
-import { currentUser as queryCurrentUser, fetchRoutes } from './services/ant-design-pro/api';
+import {currentUser as queryCurrentUser, fetchRoutes} from './services/ant-design-pro/api';
 import defaultSettings from '../config/defaultSettings';
-import { ACCESS_TOKEN, LOGIN_PATH } from '@/constants';
+import {ACCESS_TOKEN, LOGIN_PATH} from '@/constants';
 
 /**
  * 动态拼接路由
@@ -18,11 +18,17 @@ let extraRoutes: [] = [];
 
 /**
  * 拼接路由
+ * 约定将服务器路由拼接到 path为'/' 子路由上
+ *
  * @param routes
  */
-export function patchRoutes({routes}: {routes: Route[]}) {
-  // 约定索引4的路由动态拼接服务端的路由
-  [].push.apply(routes[4].routes, extraRoutes);
+export function patchRoutes({routes}: { routes: Route[] }) {
+  for (let i = 0; i < routes.length; i++) {
+    if (routes[i].path === '/') {
+      [].push.apply(routes[i].routes, extraRoutes);
+      return;
+    }
+  }
 }
 
 /**
@@ -41,7 +47,7 @@ export function render(oldRender: () => void) {
       return IframeWrapper;
     }
     return dynamic({
-      loader: async function() {
+      loader: async function () {
         // 因为动态引入组件 需要 webpack 打包，引入时需要具体到目录文件所以
         // @/pages/dynamicPages硬编码  约定组件文件都放在 @/pages/dynamicPages下
         const {default: Page} = await import(`@/pages/dynamicPages/${componentStr}`);
@@ -90,7 +96,7 @@ export const initialStateConfig = {
  * @see  https://umijs.org/zh-CN/plugins/plugin-initial-state
  * */
 export async function getInitialState(): Promise<{
-  settings?: Partial<LayoutSettings & {logo?: string}>;
+  settings?: Partial<LayoutSettings & { logo?: string }>;
   currentUser?: API.CurrentUser;
   fetchUserInfo?: () => Promise<API.CurrentUser | undefined>;
 }> {
@@ -140,11 +146,11 @@ const errorHandler = (error: ResponseError) => {
     504: '网关超时。',
   };
 
-  const { data, response } = error;
+  const {data, response} = error;
 
   if (response && response.status) {
     const errorText = codeMessage[response.status] || response.statusText;
-    const { status, url } = response;
+    const {status, url} = response;
     switch (status) {
       case 401:
         localStorage.clear();
@@ -211,21 +217,21 @@ export const request: RequestConfig = {
           ...options.headers,
         };
         // 如果是开放api，则不需要携带Authorization
-        if(options && options.openApi) {
+        if (options && options.openApi) {
           delete headers.Authorization;
         }
         // 上传文件的fetch请求header里面不能写Content-Type，需fetch自己适配，所以上传文件是将Content-Type设置为upload用以删除默认Content-Type;
         if (options && options.headers && options.headers['Content-Type'] === 'upload') {
-          delete headers["Content-Type"];
+          delete headers['Content-Type'];
         }
         return {
           url,
-          options: { ...options, headers },
+          options: {...options, headers},
         };
       }
       return {
         url,
-        options: { ...options },
+        options: {...options},
       };
     },
   ],
