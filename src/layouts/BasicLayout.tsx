@@ -1,7 +1,7 @@
-import React, {useContext, useCallback} from 'react';
+import React, {useCallback, useContext, useEffect} from 'react';
 import type {Dispatch} from 'umi';
-import {connect, history} from 'umi';
-import {Layout, ConfigProvider} from 'antd';
+import {connect, history, isBrowser} from 'umi';
+import {ConfigProvider, Layout} from 'antd';
 import getLocales from '../locales';
 import useMergedState from 'rc-util/lib/hooks/useMergedState';
 import type {SiderMenuProps} from '@/layouts/Sider';
@@ -9,11 +9,13 @@ import Sider from '@/layouts/Sider';
 import Header from '@/layouts/Header';
 import Content from '@/layouts/Content';
 import Footer from '@/layouts/Footer';
-import type {MenuDataItem, Route, TabPaneProps, MessageDescriptor} from '@/layouts/typings';
+import type {MenuDataItem, MessageDescriptor, Route, TabPaneProps} from '@/layouts/typings';
 import type {ConnectState} from '@/models/connect';
 import {DEFAULT_ACTIVE_KTY} from '@/constants';
 import getMenuData from '@/layouts/utils/getMenuData';
 import {useModel} from '@@/plugin-model/useModel';
+import Omit from 'omit.js';
+import {getPageTitle} from '@ant-design/pro-layout';
 
 export type BasicLayoutProps = {
   dispatch: Dispatch;
@@ -36,6 +38,7 @@ export type BasicLayoutProps = {
 const BasicLayout: React.FC<BasicLayoutProps> = React.memo(props => {
   const {
     dispatch,
+    location = { pathname: '/' },
     collapsed,
     activeKey,
     tabPaneList,
@@ -71,7 +74,7 @@ const BasicLayout: React.FC<BasicLayoutProps> = React.memo(props => {
     menuData?: MenuDataItem[];
   }>(() => getMenuData(route?.routes || [], menu, formatMessage));
 
-  const { menuData = [] } = menuInfoData || {};
+  const { breadcrumb, breadcrumbMap, menuData = [] } = menuInfoData || {};
 
   // 菜单缩放
   const handleMenuCollapse = (payload: boolean) => {
@@ -80,6 +83,7 @@ const BasicLayout: React.FC<BasicLayoutProps> = React.memo(props => {
       payload,
     });
   };
+
   // 设置tabPane列表
   const setTabPaneList = (payload: TabPaneProps[]) => {
     if (dispatch) {
@@ -89,6 +93,7 @@ const BasicLayout: React.FC<BasicLayoutProps> = React.memo(props => {
       });
     }
   };
+
   /**
    * 设置当前激活的页签
    * 如果入参undefined，则激活默认页
@@ -112,6 +117,29 @@ const BasicLayout: React.FC<BasicLayoutProps> = React.memo(props => {
       }
     }
   };
+
+  // Splicing parameters, adding menuData and formatMessage in props
+  const defaultProps = Omit(
+    {
+      prefixCls,
+      ...props,
+      formatMessage,
+      breadcrumb,
+      menu: { ...menu},
+    },
+    ['className', 'style', 'breadcrumbRender'],
+  );
+  const pageTitle = getPageTitle({
+    pathname: location.pathname,
+    title: 'Ant Design Tabs',
+    ...defaultProps,
+    breadcrumbMap,
+  });
+  useEffect(() => {
+    if (isBrowser()) {
+      document.title = pageTitle;
+    }
+  }, [pageTitle]);
 
   return (
     <Layout style={{minWidth: '1200px'}}>
