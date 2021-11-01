@@ -8,7 +8,6 @@ export default {
     data: [
       {
         name: 'dashboard',
-        key: '/dashboard',
         path: '/dashboard',
         icon: 'icon-dashboard',
         menuType: 0,
@@ -16,7 +15,6 @@ export default {
           {
             name: 'analysis',
             path: '/dashboard/analysis',
-            key: '/dashboard/analysis',
             renderType: 0,
             menuType: 1,
             component: 'dashboard/Analysis',
@@ -24,7 +22,6 @@ export default {
           {
             name: 'monitor',
             path: '/dashboard/monitor',
-            key: '/dashboard/monitor',
             renderType: 0,
             menuType: 1,
             component: 'dashboard/Monitor',
@@ -32,7 +29,6 @@ export default {
           {
             name: 'workplace',
             path: '/dashboard/workplace',
-            key: '/dashboard/workplace',
             renderType: 1,
             menuType: 1,
             targetUrl: 'https://www.163.com/',
@@ -41,7 +37,6 @@ export default {
       },
       {
         name: 'account',
-        key: '/account',
         path: '/account',
         icon: 'icon-setting',
         menuType: 0,
@@ -49,7 +44,6 @@ export default {
           {
             name: 'center',
             path: '/account/center',
-            key: '/account/center',
             renderType: 0,
             menuType: 1,
             component: 'account/Center',
@@ -57,7 +51,6 @@ export default {
           {
             name: 'settings',
             path: '/account/settings',
-            key: '/account/settings',
             renderType: 0,
             menuType: 1,
             component: 'account/Settings',

@@ -60,7 +60,7 @@ npm test
 更多的文档可以查看 [AntDesignPro官网](https://pro.ant.design)。
 
 # 遗留问题
-1. 模拟的菜单接口存在数据冗余；
+1. 模拟的菜单接口存在数据冗余；(fixed)
 2. 刷新后导致已打开的tab页信息丢失；
 3. 无法根据路由正确的激活当前tab；
 4. iframe嵌入的content高度异常；
