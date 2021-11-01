@@ -7,7 +7,6 @@ export default {
     message: '成功',
     data: [
       {
-        code: 'dashboard',
         name: 'dashboard',
         route: '/dashboard',
         key: '/dashboard',
@@ -16,7 +15,6 @@ export default {
         menuType: 0,
         children: [
           {
-            code: 'analysis',
             name: 'analysis',
             route: '/dashboard/analysis',
             path: '/dashboard/analysis',
@@ -26,7 +24,6 @@ export default {
             component: 'dashboard/Analysis',
           },
           {
-            code: 'monitor',
             name: 'monitor',
             route: '/dashboard/monitor',
             path: '/dashboard/monitor',
@@ -36,7 +33,6 @@ export default {
             component: 'dashboard/Monitor',
           },
           {
-            code: 'workplace',
             name: 'workplace',
             route: '/dashboard/workplace',
             path: '/dashboard/workplace',
@@ -48,7 +44,6 @@ export default {
         ],
       },
       {
-        code: 'account',
         name: 'account',
         route: '/account',
         key: '/account',
@@ -57,7 +52,6 @@ export default {
         menuType: 0,
         children: [
           {
-            code: 'center',
             name: 'center',
             route: '/account/center',
             path: '/account/center',
@@ -67,7 +61,6 @@ export default {
             component: 'account/Center',
           },
           {
-            code: 'settings',
             name: 'settings',
             route: '/account/settings',
             path: '/account/settings',
