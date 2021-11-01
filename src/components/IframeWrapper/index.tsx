@@ -1,5 +1,5 @@
 import React from 'react';
-import './style.less';
+import styles from './style.less';
 import { IFRAME_COMPONENT_NAME } from '@/constants';
 
 export type IframeWrapperProps = {
@@ -19,7 +19,7 @@ const IframeWrapper: React.FC<IframeWrapperProps> = React.memo(props => {
   return (
     <iframe
       id={id}
-      className='iframe-content'
+      className={styles.content}
       src={path}
       frameBorder='0'
       title={path}
