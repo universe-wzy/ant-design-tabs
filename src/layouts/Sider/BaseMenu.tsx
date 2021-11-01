@@ -109,11 +109,11 @@ class MenuUtil {
       setTabPaneList,
       setActiveKey,
     } = this.props;
-    const {route, renderType, component, componentStr, targetUrl} = item;
-    if (tabPaneList.filter((tabPane) => tabPane.key === route).length === 0) {
+    const {path, renderType, component, componentStr, targetUrl} = item;
+    if (tabPaneList.filter((tabPane) => tabPane.key === path).length === 0) {
       const tabPane = {
         tab: this.getIntlName(item),
-        key: route,
+        key: path,
         closable: true,
         content: component,
         renderType,
@@ -122,7 +122,7 @@ class MenuUtil {
       };
       setTabPaneList([...tabPaneList, tabPane]);
     }
-    setActiveKey(route);
+    setActiveKey(path);
   };
 }
 

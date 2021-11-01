@@ -8,7 +8,6 @@ export default {
     data: [
       {
         name: 'dashboard',
-        route: '/dashboard',
         key: '/dashboard',
         path: '/dashboard',
         icon: 'icon-dashboard',
@@ -16,7 +15,6 @@ export default {
         children: [
           {
             name: 'analysis',
-            route: '/dashboard/analysis',
             path: '/dashboard/analysis',
             key: '/dashboard/analysis',
             renderType: 0,
@@ -25,7 +23,6 @@ export default {
           },
           {
             name: 'monitor',
-            route: '/dashboard/monitor',
             path: '/dashboard/monitor',
             key: '/dashboard/monitor',
             renderType: 0,
@@ -34,7 +31,6 @@ export default {
           },
           {
             name: 'workplace',
-            route: '/dashboard/workplace',
             path: '/dashboard/workplace',
             key: '/dashboard/workplace',
             renderType: 1,
@@ -45,7 +41,6 @@ export default {
       },
       {
         name: 'account',
-        route: '/account',
         key: '/account',
         path: '/account',
         icon: 'icon-setting',
@@ -53,7 +48,6 @@ export default {
         children: [
           {
             name: 'center',
-            route: '/account/center',
             path: '/account/center',
             key: '/account/center',
             renderType: 0,
@@ -62,7 +56,6 @@ export default {
           },
           {
             name: 'settings',
-            route: '/account/settings',
             path: '/account/settings',
             key: '/account/settings',
             renderType: 0,
