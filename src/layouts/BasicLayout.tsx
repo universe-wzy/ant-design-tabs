@@ -11,6 +11,7 @@ import Content from '@/layouts/Content';
 import Footer from '@/layouts/Footer';
 import type {MenuDataItem, MessageDescriptor, Route, TabPaneProps} from '@/layouts/typings';
 import type {ConnectState} from '@/models/connect';
+import WindowLayout from '@/layouts/WindowLayout';
 import {DEFAULT_ACTIVE_KTY} from '@/constants';
 import getMenuData from '@/layouts/utils/getMenuData';
 import {useModel} from '@@/plugin-model/useModel';
@@ -38,7 +39,7 @@ export type BasicLayoutProps = {
 const BasicLayout: React.FC<BasicLayoutProps> = React.memo(props => {
   const {
     dispatch,
-    location = { pathname: '/' },
+    location = {pathname: '/'},
     collapsed,
     activeKey,
     tabPaneList,
@@ -47,14 +48,14 @@ const BasicLayout: React.FC<BasicLayoutProps> = React.memo(props => {
     formatMessage: propsFormatMessage,
   } = props;
 
-  const { initialState } = useModel('@@initialState');
+  const {initialState} = useModel('@@initialState');
   const settings = initialState?.settings;
 
   const context = useContext(ConfigProvider.ConfigContext);
   const prefixCls = props.prefixCls ?? context.getPrefixCls('pro');
 
   const formatMessage = useCallback(
-    ({ id, defaultMessage, ...restParams }: { id: string; defaultMessage?: string }): string => {
+    ({id, defaultMessage, ...restParams}: { id: string; defaultMessage?: string }): string => {
       if (propsFormatMessage) {
         return propsFormatMessage({
           id,
@@ -74,7 +75,7 @@ const BasicLayout: React.FC<BasicLayoutProps> = React.memo(props => {
     menuData?: MenuDataItem[];
   }>(() => getMenuData(route?.routes || [], menu, formatMessage));
 
-  const { breadcrumb, breadcrumbMap, menuData = [] } = menuInfoData || {};
+  const {breadcrumb, breadcrumbMap, menuData = []} = menuInfoData || {};
 
   // 菜单缩放
   const handleMenuCollapse = (payload: boolean) => {
@@ -125,7 +126,7 @@ const BasicLayout: React.FC<BasicLayoutProps> = React.memo(props => {
       ...props,
       formatMessage,
       breadcrumb,
-      menu: { ...menu},
+      menu: {...menu},
     },
     ['className', 'style', 'breadcrumbRender'],
   );
@@ -142,34 +143,42 @@ const BasicLayout: React.FC<BasicLayoutProps> = React.memo(props => {
   }, [pageTitle]);
 
   return (
-    <Layout style={{minWidth: '1200px'}}>
-      <Sider
-        {...props}
-        logo={settings?.logo}
-        title={settings?.title}
-        layout={settings?.layout}
-        menuData={menuData}
-        formatMessage={formatMessage}
-        tabPaneList={tabPaneList}
-        setTabPaneList={setTabPaneList}
-        activeKey={activeKey}
-        setActiveKey={setActiveKey}
-        prefixCls={prefixCls}
-      />
-      <Layout>
-        <Header
-          collapsed={collapsed}
-          handleMenuCollapse={handleMenuCollapse}
-        />
-        <Content
+    <>
+      <Layout style={{minWidth: '1200px'}}>
+        <Sider
+          {...props}
+          logo={settings?.logo}
+          title={settings?.title}
+          layout={settings?.layout}
+          menuData={menuData}
+          formatMessage={formatMessage}
           tabPaneList={tabPaneList}
           setTabPaneList={setTabPaneList}
           activeKey={activeKey}
           setActiveKey={setActiveKey}
+          prefixCls={prefixCls}
         />
-        <Footer/>
+        <Layout>
+          <Header
+            collapsed={collapsed}
+            handleMenuCollapse={handleMenuCollapse}
+          />
+          <Content
+            tabPaneList={tabPaneList}
+            setTabPaneList={setTabPaneList}
+            activeKey={activeKey}
+            setActiveKey={setActiveKey}
+          />
+          <Footer/>
+        </Layout>
       </Layout>
-    </Layout>
+      <WindowLayout
+        tabPaneList={tabPaneList}
+        setTabPaneList={setTabPaneList}
+        activeKey={activeKey}
+        setActiveKey={setActiveKey}
+      />
+    </>
   );
 });
 
