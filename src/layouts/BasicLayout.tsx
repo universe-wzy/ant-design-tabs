@@ -12,13 +12,15 @@ import Footer from '@/layouts/Footer';
 import type {MenuDataItem, MessageDescriptor, Route, TabPaneProps} from '@/layouts/typings';
 import type {ConnectState} from '@/models/connect';
 import WindowLayout from '@/layouts/WindowLayout';
-import {DEFAULT_ACTIVE_KTY} from '@/constants';
+import {CURRENT_TAB_KEY, CURRENT_TAB_PANE_LIST, DEFAULT_ACTIVE_KTY} from '@/constants';
 import getMenuData from '@/layouts/utils/getMenuData';
 import {useModel} from '@@/plugin-model/useModel';
 import Omit from 'omit.js';
 import {getPageTitle} from '@ant-design/pro-layout';
+import {renderComponent} from '@/utils/utils';
 
 export type BasicLayoutProps = {
+  defaultTabPaneList: TabPaneProps[];
   dispatch: Dispatch;
   collapsed: boolean;
   menu?: {
@@ -42,6 +44,7 @@ const BasicLayout: React.FC<BasicLayoutProps> = React.memo(props => {
     location = {pathname: '/'},
     collapsed,
     activeKey,
+    defaultTabPaneList,
     tabPaneList,
     menu,
     route,
@@ -101,7 +104,7 @@ const BasicLayout: React.FC<BasicLayoutProps> = React.memo(props => {
    *
    * @param payload
    */
-  const setActiveKey = (payload: string | undefined) => {
+  const setActiveKey = (payload: string | null) => {
     if (dispatch) {
       if (payload !== undefined) {
         dispatch({
@@ -141,6 +144,28 @@ const BasicLayout: React.FC<BasicLayoutProps> = React.memo(props => {
       document.title = pageTitle;
     }
   }, [pageTitle]);
+  useEffect(() => {
+    // 渲染之前判断是否存在已有的tabPaneList，如果存在则优先渲染，为了刷新后保持tab页
+    const historyTabPaneList = JSON.parse(sessionStorage.getItem(CURRENT_TAB_PANE_LIST) as string);
+    if (historyTabPaneList) {
+      const currentTabKey = sessionStorage.getItem(CURRENT_TAB_KEY);
+      sessionStorage.removeItem(CURRENT_TAB_PANE_LIST);
+      sessionStorage.removeItem(CURRENT_TAB_KEY);
+      console.log(activeKey);
+      console.log(defaultTabPaneList);
+      const refreshCurrentTabPaneList = [...defaultTabPaneList];
+      historyTabPaneList.forEach((tabPane: TabPaneProps) => {
+        // 剔除默认的首页pane
+        if (tabPane.key !== '/') {
+          // eslint-disable-next-line no-param-reassign
+          tabPane.content = renderComponent(tabPane.renderType, tabPane.componentStr);
+          refreshCurrentTabPaneList.push(tabPane);
+        }
+      });
+      setTabPaneList(refreshCurrentTabPaneList);
+      setActiveKey(currentTabKey);
+    }
+  }, []);
 
   return (
     <>
@@ -186,4 +211,5 @@ export default connect(({global}: ConnectState) => ({
   collapsed: global.collapsed,
   activeKey: global.activeKey,
   tabPaneList: global.tabPaneList,
+  defaultTabPaneList: global.defaultTabPaneList,
 }))(BasicLayout);

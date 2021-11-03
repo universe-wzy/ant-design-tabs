@@ -8,6 +8,7 @@ import type {TabPaneProps} from '@/layouts/typings';
 export interface GlobalModelState {
   collapsed: boolean;
   activeKey: string;
+  defaultTabPaneList: TabPaneProps[];
   tabPaneList: TabPaneProps[];
 }
 
@@ -53,6 +54,7 @@ const GlobalModel: GlobalModelType = {
   state: {
     collapsed: false,
     activeKey: DEFAULT_ACTIVE_KTY,
+    defaultTabPaneList,
     tabPaneList: [...defaultTabPaneList],
   },
 

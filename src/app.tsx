@@ -1,15 +1,15 @@
 import type {Settings as LayoutSettings} from '@ant-design/pro-layout';
-import LoadingComponent, {PageLoading} from '@ant-design/pro-layout';
+import {PageLoading} from '@ant-design/pro-layout';
 import type {RequestConfig} from 'umi';
-import {dynamic, history} from 'umi';
+import {history} from 'umi';
 import {notification} from 'antd';
 import type {ResponseError, RequestOptionsInit} from 'umi-request';
 import {isEmpty} from 'lodash';
 import type {Route} from '@/layouts/typings';
-import IframeWrapper from '@/components/IframeWrapper';
 import {currentUser as queryCurrentUser, fetchRoutes} from './services/ant-design-pro/api';
 import defaultSettings from '../config/defaultSettings';
 import {ACCESS_TOKEN, LOGIN_PATH} from '@/constants';
+import { renderComponent } from '@/utils/utils';
 
 /**
  * 动态拼接路由
@@ -36,27 +36,6 @@ export function patchRoutes({routes}: { routes: Route[] }) {
  * @param oldRender
  */
 export function render(oldRender: () => void) {
-  /**
-   * 根据渲染类型和组件字符串描述，生成对应的组件对象
-   * @param renderType 渲染类型 0：组件渲染， 1：iframe渲染
-   * @param componentStr 组件名称，对应组件目录
-   * @returns {React.NamedExoticComponent<object>|React.ComponentClass<{}, any>|*}
-   */
-  const renderComponent = (renderType: number, componentStr: string) => {
-    if (renderType === 1) {
-      return IframeWrapper;
-    }
-    return dynamic({
-      loader: async function () {
-        // 因为动态引入组件 需要 webpack 打包，引入时需要具体到目录文件所以
-        // @/pages/dynamicPages硬编码  约定组件文件都放在 @/pages/dynamicPages下
-        const {default: Page} = await import(`@/pages/dynamicPages/${componentStr}`);
-        return (props: any) => <Page {...props} />;
-      },
-      loading: LoadingComponent,
-    });
-  };
-
   /**
    * 服务端读取的组件字段为字符串，需要导入组件
    * @param routes
