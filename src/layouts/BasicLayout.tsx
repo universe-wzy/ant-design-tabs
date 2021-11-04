@@ -104,7 +104,7 @@ const BasicLayout: React.FC<BasicLayoutProps> = React.memo(props => {
    *
    * @param payload
    */
-  const setActiveKey = (payload: string | null) => {
+  const setActiveKey = (payload: string | undefined) => {
     if (dispatch) {
       if (payload !== undefined) {
         dispatch({
@@ -148,11 +148,9 @@ const BasicLayout: React.FC<BasicLayoutProps> = React.memo(props => {
     // 渲染之前判断是否存在已有的tabPaneList，如果存在则优先渲染，为了刷新后保持tab页
     const historyTabPaneList = JSON.parse(sessionStorage.getItem(CURRENT_TAB_PANE_LIST) as string);
     if (historyTabPaneList) {
-      const currentTabKey = sessionStorage.getItem(CURRENT_TAB_KEY);
+      const currentTabKey = sessionStorage.getItem(CURRENT_TAB_KEY) as string;
       sessionStorage.removeItem(CURRENT_TAB_PANE_LIST);
       sessionStorage.removeItem(CURRENT_TAB_KEY);
-      console.log(activeKey);
-      console.log(defaultTabPaneList);
       const refreshCurrentTabPaneList = [...defaultTabPaneList];
       historyTabPaneList.forEach((tabPane: TabPaneProps) => {
         // 剔除默认的首页pane

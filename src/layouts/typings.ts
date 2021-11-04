@@ -64,6 +64,8 @@ export type TabPaneProps = {
   tab?: string;
   route?: string;
   closable?: boolean;
+  renderType?: number | undefined,
+  componentStr?: string | undefined;
   targetUrl?: string;
   content?: any;
 };

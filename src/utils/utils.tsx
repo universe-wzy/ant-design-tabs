@@ -8,7 +8,7 @@ import LoadingComponent from '@ant-design/pro-layout';
  * @param componentStr 组件名称，对应组件目录
  * @returns {React.NamedExoticComponent<object>|React.ComponentClass<{}, any>|*}
  */
-export const renderComponent = (renderType: number, componentStr: string) => {
+export const renderComponent = (renderType: number | undefined, componentStr: string | undefined) => {
   if (renderType === 1) {
     return IframeWrapper;
   }
