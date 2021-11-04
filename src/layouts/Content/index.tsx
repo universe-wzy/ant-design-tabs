@@ -42,8 +42,8 @@ const WrapContent: React.FC<{
         resolve();
       }
     }).then(() => {
-      dropScope(key).then((item) => item);
-      drop(key).then((item) => item);
+      dropScope(key);
+      drop(key);
     });
   };
   // 关闭tab页
