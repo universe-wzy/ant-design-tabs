@@ -96,7 +96,7 @@ const WrapContent: React.FC<{
   // 更多操作
   const operations = (
     <Dropdown overlay={dropdownMenu(activeKey)}>
-      <a className='ant-dropdown-link'>
+      <a>
         <UnorderedListOutlined/>
         <span style={{margin: '0 10px'}}>更多操作</span>
         <DownOutlined/>
@@ -123,6 +123,7 @@ const WrapContent: React.FC<{
         >
           {tabPaneList && tabPaneList.length ? (
             <Tabs
+              animated={true}
               renderTabBar={tabBarDom}
               activeKey={activeKey}
               onChange={key => setActiveKey(key)}
