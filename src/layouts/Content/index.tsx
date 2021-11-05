@@ -1,13 +1,14 @@
-import type { CSSProperties } from 'react';
+import type {CSSProperties} from 'react';
 import React from 'react';
 import {Route, KeepAlive, useAliveController, history} from 'umi';
-import { Dropdown, Layout, Menu, Tabs } from 'antd';
-import { ConfigProviderWrap } from '@ant-design/pro-provider';
-import { ErrorBoundary } from '@ant-design/pro-utils';
+import {Dropdown, Layout, Menu, Tabs} from 'antd';
+import {ConfigProviderWrap} from '@ant-design/pro-provider';
+import {ErrorBoundary} from '@ant-design/pro-utils';
+import {isEqual} from 'lodash';
 import type {TabPaneProps} from '@/layouts/typings';
-import {DEFAULT_ACTIVE_KTY, IFRAME_COMPONENT_NAME} from "@/constants";
-import type {MenuInfo} from "rc-menu/lib/interface";
-import {DownOutlined, UnorderedListOutlined} from "@ant-design/icons";
+import {DEFAULT_ACTIVE_KTY, IFRAME_COMPONENT_NAME} from '@/constants';
+import type {MenuInfo} from 'rc-menu/lib/interface';
+import {DownOutlined, UnorderedListOutlined} from '@ant-design/icons';
 import styles from './style.less';
 import IframeWrapper from '@/components/IframeWrapper';
 
@@ -47,21 +48,18 @@ const WrapContent: React.FC<{
     });
   };
   // 关闭tab页
-  const remove = (targetKey: string) => {
-    const newTabPaneList = tabPaneList.filter(
-      (tabPane) => tabPane.key !== targetKey || tabPane.key === DEFAULT_ACTIVE_KTY,
-    );
+  const remove = (key: string) => {
+    const newTabPaneList = tabPaneList.filter(tabPane => tabPane.key !== key || tabPane.key === DEFAULT_ACTIVE_KTY);
     setTabPaneList(newTabPaneList);
-    setActiveKey(newTabPaneList[newTabPaneList.length - 1].key);
-    clearKeepaliveCache(targetKey);
+    if (isEqual(key, activeKey)) {
+      setActiveKey(newTabPaneList[newTabPaneList.length - 1].key);
+    }
+    clearKeepaliveCache(key);
   };
-  const onEdit = (e: any, action: "remove" | "add"): void => {
-    switch (action) {
-      case 'remove':
-        remove(e);
-        break;
-      default:
-      // eslint-disable-next-line no-console
+  // 新增和删除页签的回调，在 type="editable-card" 时有效
+  const onEdit = (targetKey: any, action: 'remove' | 'add'): void => {
+    if (isEqual(action, 'remove')) {
+      remove(targetKey);
     }
   };
 
@@ -88,17 +86,17 @@ const WrapContent: React.FC<{
           onClickHover(e, currentKey);
         }}
       >
-        <Menu.Item key="1">关闭当前标签页</Menu.Item>
-        <Menu.Item key="2">关闭其他标签页</Menu.Item>
-        <Menu.Item key="3">关闭全部标签页</Menu.Item>
-        <Menu.Item key="4">收藏当前页面</Menu.Item>
+        <Menu.Item key='1'>关闭当前标签页</Menu.Item>
+        <Menu.Item key='2'>关闭其他标签页</Menu.Item>
+        <Menu.Item key='3'>关闭全部标签页</Menu.Item>
+        <Menu.Item key='4'>收藏当前页面</Menu.Item>
       </Menu>
     );
   };
   // 更多操作
   const operations = (
     <Dropdown overlay={dropdownMenu(activeKey)}>
-      <a className="ant-dropdown-link">
+      <a className='ant-dropdown-link'>
         <UnorderedListOutlined/>
         <span style={{margin: '0 10px'}}>更多操作</span>
         <DownOutlined/>
@@ -130,16 +128,16 @@ const WrapContent: React.FC<{
               onChange={key => setActiveKey(key)}
               tabBarExtraContent={operations}
               tabBarStyle={{margin: '0 0 8px 0'}}
-              tabPosition="top"
+              tabPosition='top'
               tabBarGutter={4}
               hideAdd
-              type="editable-card"
+              type='editable-card'
               onEdit={onEdit}
               className={styles.layoutTabs}
             >
               {tabPaneList.map((item) => {
                 const Component = item.content;
-                if(undefined === Component) {
+                if (undefined === Component) {
                   return null;
                 }
                 return (
