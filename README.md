@@ -1,9 +1,10 @@
 # Ant Design Tabs
 
-项目地址[Ant Design Tabs](https://github.com/gamemock/ant-design-tabs) 。 基于Ant Design Pro v5版本改造。
+项目地址[Ant Design Tabs](https://github.com/gamemock/ant-design-tabs) 。 基于 Ant Design Pro v5 版本改造。
+
 1. 支持多页签；
 2. 支持服务动态路由；
-3. 支持iframe嵌入...
+3. 支持 iframe 嵌入...
 
 ## 环境准备
 
@@ -57,14 +58,16 @@ npm test
 
 ## 更多
 
-更多的文档可以查看 [AntDesignPro官网](https://pro.ant.design)。
+更多的文档可以查看 [AntDesignPro 官网](https://pro.ant.design)。
 
 # 遗留问题
+
 1. 模拟的菜单接口存在数据冗余；(fixed:2021-11-01)
-2. 刷新后导致已打开的tab页信息丢失；(fixed:2021-11-03)
-3. 无法根据路由正确的激活当前tab；
-4. iframe嵌入的content高度异常；
+2. 刷新后导致已打开的 tab 页信息丢失；(fixed:2021-11-03)
+3. 无法根据路由正确的激活当前 tab；
+4. iframe 嵌入的 content 高度异常；
 5. 面包屑功能暂时缺失；
 6. 样式紊乱，无法根据主题一键切换对应样式；
 7. 首次刷新未能正确跳转到登录页；
-8. 待补充...
+8. 准备搞个域名用于展示；
+9. 待补充...
