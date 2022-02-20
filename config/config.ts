@@ -26,7 +26,7 @@ export default defineConfig({
     ie: 11,
   },
   history: {
-    type: 'hash'
+    type: 'hash',
   },
   // 路由配置
   routes: routes,
@@ -50,9 +50,9 @@ export default defineConfig({
     type: 'none',
   },
   mfsu: {
-    production: {
-      output: '.mfsu-production',
-    },
+    // production: {
+    //   output: '.mfsu-production',
+    // },
   },
   webpack5: {},
   exportStatic: {},

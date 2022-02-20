@@ -4,9 +4,10 @@
   padding: 8px 13px 0 16px;
   background-image: url('../../../public/tabs/bg.png');
   background-repeat: no-repeat;
-  background-size: auto 58px;
   background-position: center top;
+  background-size: auto 58px;
 }
+
 :global {
   .ant-layout-sider {
     position: relative;
@@ -15,18 +16,25 @@
     transition: all 0.2s;
   }
 }
-.layoutTabs{
-  :global{
-    .ant-tabs-nav::before{
+
+.layoutTabs {
+  .layoutTabPane {
+    height: calc(100vh - 48px - 72px - 124px);
+    overflow: auto;
+  }
+
+  :global {
+    .ant-tabs-nav::before {
       border-bottom: none !important;
     }
   }
 }
-.tabTitle{
-  :global(.ant-tabs-tab-btn){
+
+.tabTitle {
+  :global(.ant-tabs-tab-btn) {
     max-width: 200px;
     overflow: hidden;
-    text-overflow: ellipsis;
     white-space: nowrap;
+    text-overflow: ellipsis;
   }
 }
