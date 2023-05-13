@@ -94,3 +94,48 @@ export async function removeRule(options?: { [key: string]: any }) {
     ...(options || {}),
   });
 }
+
+export type FileRes = {
+  code: string;
+  msg: string;
+  url: string;
+  fileName: string;
+  requestId: string;
+  securityToken: string;
+  accessKeySecret: string;
+  accessKeyId: string;
+  bucketName: string;
+  fileDir: string;
+};
+
+/**
+ * 按模块上传附件
+ * @param {string} moduleEnum 可用值:PORTAL,MDM,BUDGET,TPM,DMS,SFA,WORKFLOW,CODE,SMP,MEMBER,VIDEO,IO
+ * @param {string} folder 文件夹
+ * @param {string} params formData对象
+ * @returns
+ */
+export async function moduleUpload(moduleEnum: string, folder: string, params: object) {
+  return request<API.RestResult<FileRes>>(
+    `/api/file/upload/oss/module?moduleEnum=${moduleEnum}&folder=${folder}`,
+    {
+      method: 'POST',
+      data: params,
+    },
+  );
+}
+
+/**
+ * 删除文件
+ * @param {string} moduleEnum 可用值:PORTAL,MDM,BUDGET,TPM,DMS,SFA,WORKFLOW,CODE,SMP,MEMBER,VIDEO,IO
+ * @param {string} fileUrls
+ * @returns
+ */
+export async function deleteFile(moduleEnum: string, fileUrls: string) {
+  return request<API.RestResult<void>>(
+    `/api/file/upload/oss/delete?moduleEnum=${moduleEnum}&fileUrls=${fileUrls}`,
+    {
+      method: 'POST',
+    },
+  );
+}

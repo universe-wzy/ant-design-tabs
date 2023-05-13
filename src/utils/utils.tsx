@@ -1,5 +1,7 @@
 import IframeWrapper from '@/components/IframeWrapper';
 import PageNotFound from '@/pages/404';
+import { ActionType } from '@ant-design/pro-components';
+import { message } from 'antd';
 import React from 'react';
 
 /**
@@ -23,4 +25,44 @@ export const renderComponent = (renderType?: number, appCode?: string, component
   } else {
     return React.memo(() => <PageNotFound />);
   }
+};
+
+/**
+ * 转换接口数据为proTable需要的数据
+ */
+export const handleProTableRes = (res: API.RestResult<any>) => {
+  return {
+    success: res?.ok,
+    total: res?.data?.total,
+    data: res?.data?.records,
+  };
+};
+
+/**
+ * 公共的处理请求封装
+ */
+export const handleRes = (
+  res: API.RestResult<any>,
+  actionRef: React.MutableRefObject<ActionType | undefined>,
+) => {
+  if (res?.ok) {
+    message.info('操作成功');
+    actionRef?.current?.reload();
+    return true;
+  } else {
+    message.error(res.msg);
+  }
+};
+
+/**
+ * 判断传入对象是否为空
+ */
+export const isEmpty = (obj: any) => {
+  if (null === obj) {
+    return true;
+  }
+  if ('object' === typeof obj) {
+    return 0 === Object.keys(obj).length;
+  }
+  return typeof obj === 'undefined' || obj === '';
 };

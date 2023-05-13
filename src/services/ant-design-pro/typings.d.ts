@@ -2,6 +2,14 @@
 /* eslint-disable */
 
 declare namespace API {
+  // 全局统一返回体类型定义
+  type RestResult<T> = {
+    ok: boolean;
+    code: string;
+    msg: string;
+    data: T;
+    ts: number;
+  };
   type CurrentUser = {
     name?: string;
     avatar?: string;
@@ -21,9 +29,9 @@ declare namespace API {
     };
     address?: string;
     phone?: string;
-    profile:? {
+    profile: ?{
       collapsed?: boolean;
-    }
+    };
   };
 
   type LoginResult = {
