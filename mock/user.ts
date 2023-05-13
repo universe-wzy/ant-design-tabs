@@ -119,6 +119,7 @@ export default {
   ],
   'POST /api/login/login': async (req: Request, res: Response) => {
     const { password, username, type } = req.body;
+    await waitTime(2000);
     if (password === 'ant.design' && username === 'admin') {
       res.send({
         status: 'ok',
