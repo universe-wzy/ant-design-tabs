@@ -28,61 +28,61 @@ export default [
     icon: 'smile',
     component: './Welcome',
   },
-  {
-    path: '/admin',
-    name: 'admin',
-    icon: 'crown',
-    access: 'canAdmin',
-    routes: [
-      {
-        path: '/admin',
-        redirect: '/admin/sub-page',
-      },
-      {
-        path: '/admin/sub-page',
-        name: 'sub-page',
-        component: './Admin',
-      },
-    ],
-  },
-  {
-    name: 'list.table-list',
-    icon: 'table',
-    path: '/list',
-    component: './TableList',
-  },
-  {
-    name: '系统管理',
-    path: '/system',
-    icon: 'setting',
-    routes: [
-      {
-        path: '/system/menu_manage',
-        name: '菜单管理',
-        component: '@/pages/system/MenuManage',
-      },
-      {
-        path: '/system/whitelist_manage',
-        name: '白名单管理',
-        component: '@/pages/system/WhitelistManage',
-      },
-      {
-        path: '/system/background_image',
-        name: '首页背景图配置',
-        component: '@/pages/system/BackgroundImage',
-      },
-      {
-        path: '/system/news_manage',
-        name: '新闻管理',
-        component: '@/pages/system/NewsManage',
-      },
-      {
-        path: '/system/announcement_manage',
-        name: '公告管理',
-        component: '@/pages/system/AnnouncementManage',
-      },
-    ],
-  },
+  // {
+  //   path: '/admin',
+  //   name: 'admin',
+  //   icon: 'crown',
+  //   access: 'canAdmin',
+  //   routes: [
+  //     {
+  //       path: '/admin',
+  //       redirect: '/admin/sub-page',
+  //     },
+  //     {
+  //       path: '/admin/sub-page',
+  //       name: 'sub-page',
+  //       component: './Admin',
+  //     },
+  //   ],
+  // },
+  // {
+  //   name: 'list.table-list',
+  //   icon: 'table',
+  //   path: '/list',
+  //   component: './TableList',
+  // },
+  // {
+  //   name: '系统管理',
+  //   path: '/system',
+  //   icon: 'setting',
+  //   routes: [
+  //     {
+  //       path: '/system/menu_manage',
+  //       name: '菜单管理',
+  //       component: '@/pages/system/MenuManage',
+  //     },
+  //     {
+  //       path: '/system/whitelist_manage',
+  //       name: '白名单管理',
+  //       component: '@/pages/system/WhitelistManage',
+  //     },
+  //     {
+  //       path: '/system/background_image',
+  //       name: '首页背景图配置',
+  //       component: '@/pages/system/BackgroundImage',
+  //     },
+  //     {
+  //       path: '/system/news_manage',
+  //       name: '新闻管理',
+  //       component: '@/pages/system/NewsManage',
+  //     },
+  //     {
+  //       path: '/system/announcement_manage',
+  //       name: '公告管理',
+  //       component: '@/pages/system/AnnouncementManage',
+  //     },
+  //   ],
+  // },
   {
     path: '/',
     redirect: '/welcome',

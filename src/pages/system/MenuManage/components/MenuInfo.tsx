@@ -1,11 +1,12 @@
-import { ProFormInstance } from '@ant-design/pro-components';
-import ProForm, {
+import {
+  ProForm,
   ProFormDependency,
+  ProFormInstance,
   ProFormSelect,
   ProFormSwitch,
   ProFormText,
   ProFormTreeSelect,
-} from '@ant-design/pro-form';
+} from '@ant-design/pro-components';
 import { Button, Col, message, Row, Space } from 'antd';
 import React, { Dispatch, Key, MutableRefObject, SetStateAction } from 'react';
 import { addMenu, MenuVO, updateMenu } from '../service';

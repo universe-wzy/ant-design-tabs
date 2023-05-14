@@ -1,6 +1,7 @@
 import IframeWrapper from '@/components/IframeWrapper';
 import PageNotFound from '@/pages/404';
 import { ActionType } from '@ant-design/pro-components';
+import { MicroAppWithMemoHistory } from '@umijs/max';
 import { message } from 'antd';
 import React from 'react';
 
@@ -16,14 +17,13 @@ export const renderComponent = (renderType?: number, appCode?: string, component
     return () => <IframeWrapper path={`${component}`} />;
   }
   if (renderType === 0) {
-    return React.memo(
-      React.lazy(() => import(`@/pages/${component}`).catch((e) => console.log(e))),
-    );
+    // 懒加载组件存在闪屏问题
+    return React.lazy(() => import(`@/pages/${component}`));
   }
   if (appCode) {
-    // return React.memo(() => <MicroAppWithMemoHistory name={appCode} url={component}/>);
+    return () => <MicroAppWithMemoHistory name={appCode} url={component} />;
   } else {
-    return React.memo(() => <PageNotFound />);
+    return () => <PageNotFound />;
   }
 };
 

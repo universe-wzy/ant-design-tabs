@@ -1,6 +1,8 @@
+import { ACCESS_TOKEN, LOGIN_PATH } from '@/constants';
 import Footer from '@/layout/Footer';
 import { Question, SelectLang } from '@/layout/RightContent';
 import { AvatarDropdown, AvatarName } from '@/layout/RightContent/AvatarDropdown';
+import { isEmpty, renderComponent } from '@/utils/utils';
 import { LinkOutlined } from '@ant-design/icons';
 import type { Settings as LayoutSettings } from '@ant-design/pro-components';
 import { SettingDrawer } from '@ant-design/pro-components';
@@ -8,10 +10,49 @@ import type { RunTimeLayoutConfig } from '@umijs/max';
 import { history, Link } from '@umijs/max';
 import defaultSettings from '../config/defaultSettings';
 import { errorConfig } from './requestErrorConfig';
-import { currentUser as queryCurrentUser } from './services/ant-design-pro/api';
+import { currentUser as queryCurrentUser, fetchRoutes } from './services/ant-design-pro/api';
 
 const isDev = process.env.NODE_ENV === 'development';
 const loginPath = '/user/login';
+
+let extraRoutes: [] = [];
+
+export function patchClientRoutes({ routes }: any) {
+  for (let i = 1; i < routes.length; i++) {
+    if (routes[i].id === 'ant-design-pro-layout') {
+      [].push.apply(routes[i].routes[0].routes, extraRoutes);
+      return;
+    }
+  }
+}
+
+export function render(oldRender: any) {
+  const addComponent = (routes: any[]) => {
+    if (Array.isArray(routes)) {
+      routes.forEach((route) => {
+        if (route.routes) {
+          addComponent(route.routes);
+          route.children = route.routes;
+        } else {
+          const Component = renderComponent(route.renderType, route.appCode, route.component);
+          route.element = <Component />;
+        }
+      });
+    }
+  };
+  // 判断是否有token信息，如果没有则跳转到登录页
+  if (isEmpty(localStorage.getItem(ACCESS_TOKEN))) {
+    history.push(LOGIN_PATH);
+    oldRender();
+  } else {
+    fetchRoutes().then((res) => {
+      addComponent(res.data);
+      // @ts-ignore
+      extraRoutes = res.data;
+      oldRender();
+    });
+  }
+}
 
 /**
  * @see  https://umijs.org/zh-CN/plugins/plugin-initial-state
@@ -100,6 +141,9 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
         ]
       : [],
     menuHeaderRender: undefined,
+    menu: {
+      local: false,
+    },
     // 自定义 403 页面
     // unAccessible: <div>unAccessible</div>,
     // 增加一个 loading 的状态

@@ -14,11 +14,7 @@ export async function currentUser(options?: { [key: string]: any }) {
 
 /** 获取当前的用户 GET /api/fetchRoutes */
 export async function fetchRoutes() {
-  return request<{
-    code: string;
-    message: string;
-    data: any;
-  }>('/api/routes', {
+  return request<API.RestResult<any>>('/api/routes', {
     method: 'GET',
   });
 }
